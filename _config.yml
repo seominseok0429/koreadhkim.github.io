@@ -10,13 +10,13 @@ site-twitter: #if your site has a twitter account, enter it here
 
 # Author Settings
 author: Kim Dae-han # add your name
-author-img: author_dhkim.jpeg # add your photo
-about-author: I'm studying/researching about artificial intelligence. # add description
+author-img: Kim.jpg # add your photo
+about-author: I'm studying/researching about artificial intelligence.. # add description
 social-twitter: # add your Twitter handle
 social-facebook: # add your Facebook handle
 social-github: koreadhkim # add your Github handle
 social-linkedin: # add your Linkedin handle
-social-email: # add your Email address
+social-email: eogks1525@gmail.com # add your Email address
 
 # Disqus
 discus-identifier: mr-brown # add your discus identifier
