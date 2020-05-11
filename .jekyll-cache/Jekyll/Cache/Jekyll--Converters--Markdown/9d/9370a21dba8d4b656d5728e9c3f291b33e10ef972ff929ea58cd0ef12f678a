@@ -1,0 +1,41 @@
+I"�<h3 id="-안녕하세요-인공지능-공부연구중인-김대한-이라고-합니다-이번-포스트는-다음의-논문과-연관이-있습니다"><strong> 안녕하세요. 인공지능 공부/연구중인 김대한 이라고 합니다. 이번 포스트는 다음의 논문과 연관이 있습니다.</strong></h3>
+<p>https://arxiv.org/pdf/1803.02735 (CVPR 2018)</p>
+
+<hr />
+
+<h2 id="0-abstract">0. Abstract</h2>
+<p>Feed-forward architecture는 저해상도와 고해상도 이미지의 상호의존 관계를 완전히 설명하지 못한다고 합니다. 
+여기서 말하는 저해상도 이미지와 고해상도 이미지의 상호의존관계는 feed-forward 구조의 경우 어쨋든 input은 LR image 이며 모든 layer들이 LR image에서 extraction된 정보만 이용하기 때문에, LR image &lt;&gt; HR image 사이의 의존관계를 부정적으로 바라보고 있는 것 같습니다. 즉, 어느순간에는 LR image으 정보로만 HR image를 만들어 내는 것은 부적절 하다. 까지 바라볼 수 있었습니다.</p>
+
+<blockquote> We propose Deep Back-Projection Networks (DBPN), that exploit iterative up- and downsampling layers, providing an error feedback mechanism for projection errors at each stage. We construct mutually connected up- and down-sampling stages each of which represents different types of image degradation and highresolution components.
+</blockquote>
+
+<p>눈길을 끄는 단어는 *feedback mechanism, *projection error, *image degradation, *high-resolution componets. 입니다.</p>
+
+<p>저자의 말에 따르면, 제안하고자 하는 네트워크에는 반복적인 Up/Down sampling layer를 포함하고, Up/Down sampling layer 들은 projection error를 계산하고 이를 공유하여 성능을 보이겠다. 라고 하는것으로 보입니다. 이를 (feedback mechanism) 이라고 하는 것 같습니다.</p>
+
+<p>network에서 반복되는 Up/Down sampling 을 각각 output_Up(Upsample), output_Down(Downsample)이라고 하면, output_UP를 HR중 하나로 보고, output_Down를 LR중 하나로 보고 있다고 생각이 됩니다.</p>
+
+<p>핵심은, 이를 통해서 x8 (lager scale factor) 에서 성능을 보여줬다는 것입니다.</p>
+
+<p>** 당시 Challenge (x8) track 에서 1위를 하였습니다. **</p>
+
+<h2 id="1-introduction">1. Introduction</h2>
+<p>저자는 계속적으로 이전방식들의 메커니즘을 설명하고 있습니다. 이는 “ non-linear LR-to-HR mapping “으로 간단히 말할 수 있을 것 입니다.
+[6,7,37,24,21,22,42] 에 해당하는 네트워크 구조들은 LR image 에서 feature extraction을 한 뒤, 1 or N개의 upsampling layer 를 통해 HR space 로 확장합니다.
+이러한 방식을 Feed-Forward 방식 입니다.
+저자는 human visual system은 feedback connection을 사용하는 것으로 파악하고 있다고 합니다. (이를 SR 네트워크에 적용하겠다.)
+따라서, Feed-Back이 없기 때문에, 기존에 Feed-Forward connection만 존재하는 SR 구조들은 large scale 에서 LR –&gt; HR 어려움을 겪는다고 합니다.</p>
+
+<p>한편, 초기 SR algorithm중 하나인, [18] 에서 사용되었다고 합니다. 반복적으로 reconstruction error를 계산합니다. 그런 다음 다시 결합하여 HR image의 intensity를 조절합니다.
+image quality는 향상되지만, ringing / chessboard effect 로 인해 어려움을 겪는다고 합니다. 추가적으로, 해당 방법은 blur operator / number of iteration (parameter) 의 결정이 성능에 많은 영향을 미칩니다. 다음의 그림들은 ringing / chessboard effect 입니다.<br /></p>
+<center><img src="../assets/img/DBPN/DBPN_03.png" width="20%" height="20%" />[figure_02]</center>
+<p><br /></p>
+
+<p>다음의 그림들은 기존 제안된 방식과, 본 논문에서 제안하는 방식입니다.
+<img src="../assets/img/DBPN/DBPN_02.png" alt="Alt text" /></p>
+
+<h3 id="aegsrcnn-vdsr-drrn">(a)(eg.SRCNN, VDSR, DRRN)</h3>
+<p>해당하는 구조는 LR image를 interation을 통해, HR space로 변환 후 복원하는 방식입니다.</p>
+
+:ET
