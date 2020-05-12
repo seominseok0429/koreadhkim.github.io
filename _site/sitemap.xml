@@ -1,21 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url>
-<loc>http://localhost:4000/Mixup/</loc>
-<lastmod>2019-11-23T19:32:20+09:00</lastmod>
-</url>
-<url>
-<loc>http://localhost:4000/DBPN/</loc>
-<lastmod>2020-05-11T19:32:20+09:00</lastmod>
-</url>
-<url>
-<loc>http://localhost:4000/SRFBN/</loc>
-<lastmod>2020-05-12T19:32:20+09:00</lastmod>
-</url>
-<url>
-<loc>http://localhost:4000/</loc>
-</url>
-<url>
-<loc>http://localhost:4000/tags/</loc>
-</url>
+  
+    <url>
+      <loc>http://localhost:4000/SRFBN/</loc>
+      
+        <lastmod>2020-05-12T19:32:20+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/DBPN/</loc>
+      
+        <lastmod>2020-05-11T19:32:20+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/Mixup/</loc>
+      
+        <lastmod>2019-11-23T19:32:20+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
 </urlset>
