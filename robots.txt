@@ -1,2 +1,3 @@
 User-agent: *
 Allow: 
+Sitemap: http://koreadhkim.github.io/sitemap.xml
