@@ -16,7 +16,7 @@ https://arxiv.org/pdf/1903.09814 (CVPR 2019)
 ## 0. Abstract
 DBPN에서 와 마찬가지로 저자는 기존의 네트워크 구조들은 HVS(human visual system)에 존재하는 feedback mechanism을 완전히 활용하지 못했다고 합니다. 따라서, 본 논문에서는 low-level representation을 high-level information을 이용하여 개선하는 SRFBN을 제안합니다. 이떄, feedback 방식을 달성하기 위하여 hidden states (RNN)을 사용한다고 합니다. feedback block 은 feedback connection을 handeling 할 수 있도록 designe 되었고, 이는 powerful high-level representation을 생성한다고 합니다. 또한 SRBFN은 strong early reconstruction ability를 갖고 있으며, step by step 으로 최종 HR image 를 생성합니다. 해당 논문에서는 SR task 에서 curriculum learning 방법을 학습전략으로 사용하였는데, 어떻게 사용하였지도 굉장한 궁금증을 유발하는 부분입니다. 저자는 multiple type degradation task인 SR에 적합하다고 판단 하였습니다.
 다음의 그림은 RNN(Recurrent Neural Network)의 hidden state 입니다.<br>
-![RNN hidden state](/assets/img/SRFBN/SRFBN_02.png)
+![RNN hidden state](/assets/img/SRFBN/SRFBN_02.png)<br>
 RNN 의 기본구조입니다. Green box = hidden state, Red box = input, Blue box = output 입니다.
 직관적으로 보면, Green box는 input과 더불어 이전 term 의 Green box를 입력으로 받아 New Blue box(output)을 생성한고 생각할 수 있을 것 같습니다. CNN에서 생각해보면, layer 를 F(first) M(middel) F(final) 이라고 생각하면, Mt input = Ft + Mt-1 이라고 생각 할 수 있을 것 같습니다.
 
