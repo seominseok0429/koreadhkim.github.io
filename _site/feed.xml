@@ -9,6 +9,21 @@
         <lastBuildDate>Tue, 12 May 2020 19:32:20 +0900</lastBuildDate>
         
             <item>
+                <title>EBRN paper review</title>
+                        
+                
+                    <description>&lt;h3 id=&quot;-안녕하세요-인공지능-공부연구중인-김대한-이라고-합니다-이번-포스트는-다음의-논문과-연관이-있습니다&quot;&gt;&lt;strong&gt; 안녕하세요. 인공지능 공부/연구중인 김대한 이라고 합니다. 이번 포스트는 다음의 논문과 연관이 있습니다.&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;http://openaccess.thecvf.com/content_ICCV_2019/papers/Qiu_Embedded_Block_Residual_Network_A_Recursive_Restoration_Model_for_Single-Image_ICCV_2019_paper.pdf (ICCV 2019)&lt;/p&gt;
+&lt;hr /&gt;
+
+</description>
+                
+                <pubDate>Tue, 12 May 2020 19:32:20 +0900</pubDate>
+                <link>http://localhost:4000/EBRN/</link>
+                <guid isPermaLink="true">http://localhost:4000/EBRN/</guid>
+            </item>
+        
+            <item>
                 <title>SRFBN paper review</title>
                         
                 
@@ -26,7 +41,7 @@
                         
                 
                     <description>&lt;h3 id=&quot;-안녕하세요-인공지능-공부연구중인-김대한-이라고-합니다-이번-포스트는-다음의-논문과-연관이-있습니다&quot;&gt;&lt;strong&gt; 안녕하세요. 인공지능 공부/연구중인 김대한 이라고 합니다. 이번 포스트는 다음의 논문과 연관이 있습니다.&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;https://arxiv.org/pdf/1803.02735 (CVPR 2018)&lt;/p&gt;
+&lt;p&gt;http://openaccess.thecvf.com/content_ICCV_2019/papers/Qiu_Embedded_Block_Residual_Network_A_Recursive_Restoration_Model_for_Single-Image_ICCV_2019_paper.pdf (ICCV 2019)&lt;/p&gt;
 </description>
                 
                 <pubDate>Mon, 11 May 2020 19:32:20 +0900</pubDate>

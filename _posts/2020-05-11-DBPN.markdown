@@ -3,16 +3,13 @@ layout: post
 title: "DBPN paper review"
 date: 2020-05-11 13:32:20 +0300
 description:
-sitemap :
-changefreq : daily
-priority : 1.0
  # Add post description (optional)
 img: DBPN_01.png
  # Add image post (optional)
 ---
 
 ### <strong> 안녕하세요. 인공지능 공부/연구중인 김대한 이라고 합니다. 이번 포스트는 다음의 논문과 연관이 있습니다.</strong>
-https://arxiv.org/pdf/1803.02735 (CVPR 2018)
+http://openaccess.thecvf.com/content_ICCV_2019/papers/Qiu_Embedded_Block_Residual_Network_A_Recursive_Restoration_Model_for_Single-Image_ICCV_2019_paper.pdf (ICCV 2019)
 
 <hr>
 
