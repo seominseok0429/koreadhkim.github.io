@@ -1,0 +1,12 @@
+I"š<style>
+hr {
+    border: none;
+    border-top: 3px dotted blue;
+    color: #fff;
+    background-color: #fff;
+    height: 1px;
+    width: 50%;
+}
+</style>
+
+:ET

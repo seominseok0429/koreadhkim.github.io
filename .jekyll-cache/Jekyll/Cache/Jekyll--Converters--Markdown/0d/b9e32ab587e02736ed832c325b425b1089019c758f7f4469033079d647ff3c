@@ -1,0 +1,164 @@
+I"�@<h3 id="-안녕하세요-인공지능-공부연구중인-김대한-이라고-합니다-이번-포스트는-다음의-논문과-연관이-있습니다"><strong> 안녕하세요. 인공지능 공부/연구중인 김대한 이라고 합니다. 이번 포스트는 다음의 논문과 연관이 있습니다.</strong></h3>
+<p>https://arxiv.org/pdf/1808.08718.pdf (CVPR 2018, NTIRE18 Champion)</p>
+<hr />
+
+<h2 id="0-abstract">0. Abstract</h2>
+
+<h3 id="1-논문에서-same-parameter--computational-budget으로-더-나은-성능을-가지는-model-을-제안하겠다">[1] 논문에서 same parameter / computational budget으로 더 나은 성능을 가지는 Model 을 제안하겠다.</h3>
+<h3 id="2-1을-위한-방법으로-residual-network-에서-activation-function-전에-activation-map을-늘린다-x2-x4-이는-slim-identity-pathway를-갖는다">[2] [1]을 위한 방법으로 residual network 에서 activation function 전에 activation map을 늘린다. (x2, x4) 이는 slim identity pathway를 갖는다.</h3>
+<h3 id="3-2에서-더-나아가-x6-x9로-확대하기-위해서-linear-low-rank-convolution을-삽입하여-accuracy-efficiency-tradeoff를-해결한다">[3] [2]에서 더 나아가 (x6, x9)로 확대하기 위해서 linear low-rank convolution을 삽입하여 accuracy-efficiency tradeoff를 해결한다.</h3>
+<h3 id="4-bn-or-no-bn을-비교한다-weight-normalization이-더-좋은-성능을-보이는-것을-확인한다">[4] BN or no BN을 비교한다. weight normalization이 더 좋은 성능을 보이는 것을 확인한다.</h3>
+
+<h2 id="1-introduction">1. Introduction</h2>
+<p>다수의 SR논문에서 (eg.SISR) Introduction에서 말하는 내용은 비슷합니다.(제가 읽은 SISR에 한해서)<br />
+(1) LR –&gt; HR Task이다.<br />
+(2) ill-posed problem이다.<br />
+(3) 이러한 issue 를 해결하기 위해 많은 방법이 제안되었다.<br />
+(4) (3)에서 말한 많은 방법들에 대한 맛보기.<br />
+(5) (4)에서 말한 맛보기에서 issue들을 나열<br /></p>
+
+<hr />
+
+<p><strong>[1] :</strong> SRCNN, FSRCNN, ESPCN 은 상대적으로 적은 layer를 사용하여 SR task에 적용하였다.<br />
+<strong>[2] :</strong> VDSR, SRResNet, EDSR 은 depth가 크지만, low-level feature를 적절히 활용하지 못하였다.<br />
+<strong>[3] :</strong> 해당 문제를 해결하기 위하여, SRDenseNet, RDN, MemNet을 포함한 여러가지 방법들이 제안이 되었다.(low-level/high-level layer 사이의 skip-connection) [3]의 방법론들은 SR을 위한 전체적인 구조를 공식화하는데 기여하였다.<br /></p>
+
+<hr />
+
+<p><strong>[4] :</strong> 해당 논문에서는 [1]~[3]에 대한 것과는 다른 관점을 다룬다. 다양한, shortcut-connection을 추가하면서, ReLU도 함께 추가하게 되는데, 이는 shallow layer –&gt; deeper layer의 information flow 를 방해한다고 추측합니다.
+<strong>[5] :</strong> 해당 논문에서는 다른 SR network를 기반으로 하여, 추가적인 parameter/computation 없이 SRDenseNet/MemNet을 포함한 복잡한 skip-connection을 갖는 network들을 모두 제치고 SISR에서 좋은 성능을 달성한다고 합니다.
+<strong>[6] :</strong> 해당 논문에서는 직관을 말해주고 있습니다. 논문에서의 직관은 ReLU 이전에 Activation map을 확장하면 더 많은 information이 전달될 수 있는 반면에 성능은 더 높게 유지된다는 것입니다. low-level layer의 low-level feature map 이 더 쉽게 propagation되고 이는 final layer가 더 좋은 성능을 갖고 dense-pixel을 잘 prediction하게 할 수 있다고 합니다.
+<strong>[7] :</strong> wide activation에 대한 중심 idea는 ReLU이전에 feature를 확장하기 위한 효율적인 방법이 무엇이 있을까? 를 생각하게 만든다.</p>
+<h2 id="2-related-work">2. Related Work</h2>
+<p><strong>channel attention(CA) :</strong> CA는 high-level vision task에서는 자주 사용되지만, low-level vision task에서는 거의 연구되지 않았다고 합니다. 때문에, 저자는 SR Task의 space limitation에 따라서, CNN-based methods / attention mechanism에 focus 를 맞춥니다.<br /></p>
+
+<p><strong>Predefined upsampling :</strong> 해당 방법은 LR –&gt; HR space 로 mapping한 뒤에, 학습하는 방법입니다. 이는 계산량에 대한 issue도 있을 뿐더러, interpolation으로 인해 얻는 효과는 resolution이 증가하는것 밖에 없으므로 최근에는 해당 방법은 사용되지 않는 것으로 알고 있습니다. 저자도 같은 이야기를 하고 있습니다.</p>
+
+<p><strong>Thinking about Deep Network :</strong> 저자는 EDSR/MDSR을 예시로 설명하고 있고, 물론 기존의 SRResNet구조에서 불필요한 모듈(BN/ReLU)를 제거함으로써 성능향상을 이루었지만, EDSR/MDSR은 다른 network에 비해서 parameter수가 굉장히 많은 편이며, residual block을 깊게만 쌓는 것은 유의미한 방법이 아니다.라고 말하고 있습니다. 그러면서, Introducion에서 말한, Issue 02에 대해서 한번더 부정적인 견해를 말하고 있습니다.</p>
+
+<h3 id="-attention-mechansim-">[ Attention mechansim ]</h3>
+<p>일반적으로, Attention mechansim은 성능이 향상하는 쪽으로, bias되는 방향으로 학습하는 방법이라고 생각할 수 있을 것 같습니다.
+위에도 말했듯이 저자는 Attention mechansim이 SR Task에 선행연구되지 않았고 이를 적용해서 유의미한 성능향상을 이끌어낸것으로 보입니다. 그러면서, high-frequency feature가 HR reconstruction에 유용하다고 합니다. 이는 당연한 것입니다. 의문을 가질 여지가 없습니다. 그러면서 저자는 network가 이러한(useful feature)에 더 attention한다면 좋은 개선효과를 얻을 수 있을 것이라고 생각하고 있습니다.</p>
+
+<h2 id="3-residual-channel-attention-network-rcan">3. Residual Channel Attention Network (RCAN)</h2>
+
+<h3 id="-network-architecture-">[ Network Architecture ]</h3>
+<p><img src="../assets/img/RCAN.png" alt="Alt text" /><br /></p>
+<h4 id="ilr--input">I<sub>LR</sub> = input</h4>
+<h4 id="isr--output">I<sub>SR</sub> = output</h4>
+<p><img src="../assets/img/RCAN/RCAN_02.png" alt="Alt text" /><br /></p>
+<h4 id="hsf--feature-extraction">H<sub>SF</sub> = feature extraction</h4>
+<p><img src="../assets/img/RCAN/RCAN_03.png" alt="Alt text" /><br /></p>
+<h4 id="f0--deep-feature-extration에-사용됩니다-rir-modeul-의-input이-됩니다">F<sub>0</sub> = deep feature extration에 사용됩니다. RIR modeul 의 input이 됩니다.</h4>
+<p><img src="../assets/img/RCAN/RCAN_04.png" alt="Alt text" /><br /></p>
+<h4 id="fdf--deep-feature로-간주하고-이는-upscale-module-에-input-입니다">F<sub>DF</sub> = deep feature로 간주하고, 이는 upscale module 에 input 입니다.</h4>
+<p><img src="../assets/img/RCAN/RCAN_05.png" alt="Alt text" /><br /></p>
+<h4 id="hrec--upscaling--convupscaling--network-architecture와-같이-보시면-쉽게-따라갈-수-있습니다">H<sub>REC</sub> = Upscaling –&gt; Conv(Upscaling),  Network architecture와 같이 보시면 쉽게 따라갈 수 있습니다.</h4>
+
+<h3 id="-loss-function-">[ Loss-function ]</h3>
+<p><img src="../assets/img/RCAN/RCAN_07.png" alt="Alt text" /><br /></p>
+
+<p>저자는, 이전의 논문들과 비교하여 RCAN의 효과를 보여주기 위하여 이전의 연구들에서 사용한 방식인 L1-loss를 사용하였다고 합니다.</p>
+
+<h3 id="-residual-in-residual-rir-">[ Residual in Residual (RIR) ]</h3>
+<p><img src="../assets/img/RCAN/RCAN_12.png" alt="Alt text" /><br /></p>
+
+<p>EDSR에서 residual block, skip connection을 이용하여 Deep CNN을 설계할 수 있다는 것이 입증됬다고 합니다. 결과적으로, residual 구조로 인하여 400개 이상의 많은 layer를 학습할 수 있게 됩니다.<br />
+g-th group 으로 이루어진, RG는 다음과 같이 공식화 된다고 합니다.<br />
+<img src="../assets/img/RCAN/RCAN_09.png" alt="Alt text" /><br /></p>
+<h4 id="hg--g-th-rg">H<sub>g</sub> = g-th RG</h4>
+<h4 id="fg-1--input-for-g-th-rg">F<sub>g-1</sub> = input for g-th RG</h4>
+<h4 id="fg--output-for-g-th-rg">F<sub>g</sub> = output for g-th RG</h4>
+<p>저자는 simple 하게 RG 만 많이 쌓는다고해서 성능이 좋아지는 것은 확인하지 못하였고, 이를 해결하기 위하여 LSC를 RIR에 추가로 사용합니다. 결과적으로, training을 안정화하면서 성능향상을 이끌어 낼 수 있었다고 합니다.</p>
+
+<p><img src="../assets/img/RCAN/RCAN_10.png" alt="Alt text" /><br /></p>
+<h4 id="wlsc--rir-conv-layer-weight-tail--biasx">W<sub>LSC</sub> = RIR conv layer weight (tail) , bias(x)</h4>
+
+<p>결과적으로, RCAB(b-th residual, g-th RG)는 다음과 같이 공식화 될 수 있습니다.
+<img src="../assets/img/RCAN/RCAN_11.png" alt="Alt text" /><br /></p>
+<h4 id="fgb-1--g-th-rg-에서-b-th-rcab-input">F<sub>g,b-1</sub> = g-th RG 에서 b-th RCAB input</h4>
+<h4 id="fgb--g-th-rg-에서-b-th-rcab-output">F<sub>g,b</sub> = g-th RG 에서 b-th RCAB output</h4>
+<p>저자는 LR input / fetures 에는 abundant information이 많고, SR network 의 목표는 useful information을 recover 하는 것이다. 라고 말하고 있습니다. abundant information(low-frequency)는 identity-based skip connection으로 전달 된다고합니다. residual lerning을 위해서 B residual channel attention block을 쌓는다고 합니다. 이때, B residual channel attention block은 각각의 RG에 포함된다고 합니다.<br /></p>
+
+<p><img src="../assets/img/RCAN/RCAN_13.png" alt="Alt text" /><br /></p>
+
+<h3 id="-channel-attentionca-">[ Channel Attention(CA) ]</h3>
+
+<p><img src="../assets/img/RCAN/RCAN_14.png" alt="Alt text" /><br /></p>
+
+<p>저자는 feature map 에서 channel 간에 상호의존성을 이용하여 CA를 제안하였습니다.<br />
+각 channel 별로 different attention하는 것이 key step 이라고 합니다. 이때, 두가지 concerns가 있습니다.<br /></p>
+
+<p><strong>First :</strong> LR space 는 당연히 abundant low-frequency information, valuable high-frequency componets를 갖습니다. low-frequency part는 more complante하다고 합니다. 그리고 high-frequency componets는  일반적으로, edge, texture, detail information을 갖습니다.<br />
+<strong>Second :</strong>각각의 Conv layer 는 local receptive field 를 포함합니다. 따라서, Conv 명령을 수행한 뒤, output은 unable to exploit contextual inforamtion outside of the local region 한 것은 당연한 것 입니다.<br /></p>
+
+<p>저자는 First, Second 에 분석에 기초하여, global average pooling 을 사용하여 channel-wise global spatial information을 가져온다고 합니다.<br /></p>
+
+<p>GAP (global average pooling)은 HxW pooling 이라고 생각하시면 될 것 같습니다. 즉, 한 feature map (HxWxC)를 전부 pooling 하여 하나의 neuron(1x1xC)로 mapping 하는 것 입니다.
+여기서 GAP 이후에 softmax를 취하면, 각 feature map 의 중요도(?)가 계산될 수 있을것이라고 예상이 됩니다.<br /></p>
+
+<p><img src="../assets/img/RCAN/RCAN_15.png" alt="Alt text" /><br /></p>
+
+<h4 id="x--x1-xc-xc-c--feature-map">X = [x1, …,x<sub>c</sub>,… x<sub>C</sub>], C = feature map</h4>
+<h4 id="hgp-gp--global-pooling">H<sub>GP</sub>, GP = Global pooling</h4>
+<h4 id="zc-channel-statistic-local-descriptors">Z<sub>c</sub>, Channel statistic (local descriptors)</h4>
+<p>더 정교한 방법이 도입될 수 있다고 말하고 있습니다. <br /></p>
+
+<p>이제, GAP를 통해서 aggregate 된 정보로 부터 channel-sise dependency를 알기 위해서 Gating mechanism을 소개한다고 합니다.<br />
+Gating mechanism을 적용하기 위해서는 2가지의 기준이 만족되어야 한다고 합니다. 다음과 같습니다. <br />
+<strong>First :</strong> channel 사이의 nonlinear interaction을 learning할 수 있어야 합니다.<br />
+<strong>Second :</strong> Ont-hot activation 같이 하나만 강조하는 것이 아닌 각각의 중요도를 나타낼수 있어야 한다.<br /></p>
+
+<p>저자는, First, Second를 따라서, sigmoid function을 사용합니다.
+<img src="../assets/img/RCAN/RCAN_16.png" alt="Alt text" /><br /></p>
+
+<h4 id="where-f--and-δ--denote-the-sigmoid-gating-and-relu-34-function-respectively-wd-is-the-weight-set-of-a-conv-layer-which-acts-as-channel-downscaling-with-reduction-ratio-r-after-being-activated-by-relu-the-low-dimension-signal-is-then-increased-with-ratio-r-by-a-channel-upscaling-layer-whose-weight-set-is-wu--then-we-obtain-the-final-channel-statistics-s-which-is-used-to-rescale-the-input-xc-입니다원문내용-">where f (·) and δ (·) denote the sigmoid gating and ReLU [34] function, respectively. WD is the weight set of a Conv layer, which acts as channel-downscaling with reduction ratio r. After being activated by ReLU, the low-dimension signal is then increased with ratio r by a channel-upscaling layer, whose weight set is WU . Then we obtain the final channel statistics s, which is used to rescale the input xc 입니다.(원문내용) <br /></h4>
+<p>간단하게, input x<sub>c</sub>을 받아서, ReLU를 취한 뒤, W<sub>U</sub>만큼, upscaling 을 합니다. (weight scaling) 그 뒤, Sigmoid function을 사용하여, rescaling 된 input x<sub>c</sub>를 얻어냅니다. rescaling 된  x<sub>c</sub> = s 입니다.<br />
+<img src="../assets/img/RCAN/RCAN_17.png" alt="Alt text" /><br />
+위의 식을 보시면 결과적으로, 좌항에 있는것은, feature map 에서 중요도를 계산하여 rescaling 해준 것이 될 것같습니다. channel attention을 사용함으로써, RCAB에서 residual 부분이 adaptively 하게 rescaling 된다고 합니다. 결과적으로 아래의 그림과 같은 상황에 될 것 같습니다.</p>
+
+<p><img src="../assets/img/RCAN/RCAN_19.png" alt="Alt text" /><br />
+<img src="../assets/img/RCAN/RCAN_20.png" alt="Alt text" /><br /></p>
+
+<h3 id="-residual-channel-attention-block-rcab-">[ Residual Channel Attention Block (RCAB) ]</h3>
+<p><img src="../assets/img/RCAN/RCAN_18.png" alt="Alt text" /><br />
+CA를 RCAB에 삽입했다. 라고 보시면 될 것 같습니다. 위의 그림이 정확하게 설명해주고 있습니다.</p>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<h3 id="-experiment-preveiw-">[ Experiment preveiw ]</h3>
+
+<p>training dataset = DIV2K<br />
+benchmark = Set5, Set14, B100, Urban100, Manga109<br />
+이전 network와 동등비교 하기 위하여 Y(luminance) channel 에서 만 evaluation 합니다. <br /></p>
+
+<p>BD : Gaussian blur –&gt; Down scaling</p>
+
+<p>Training settings : 90,180,270 rotation, horizontal flip<br />
+patch size : 48x48<br />
+batch size : 16<br /></p>
+
+<p>optimizer : Adam<br />
+hardware : NVIDIA Titan Xp<br /></p>
+
+<h3 id="-experiment-effects-of-rir-and-ca-">[ Experiment Effects of RIR and CA ]</h3>
+
+<p><img src="../assets/img/RCAN/RCAN_21.png" alt="Alt text" /><br /></p>
+
+<p>위의 Table 이 실험 결과입니다. 흠… 사실 조금 아쉽습니다. CA를 정교하게 하지 않아서 인지, 아니면 다른 이유인지.. 저자가 말한것 만큼 깊은 네트워크에서 LSC,SSC가 성능에 많은 변화를 주지는 못하는 것으로 보입니다. 철저히 개인적인 생각입니다. 그러나, training 불안정성을 해결하고, converge speed가 빠른 것은 당연한 사실일것입니다. 0.45 db의 성능변화 폭이 낮다. 라는 말은 결코 아닙니다. 그러나, 해당 논문에서 parameter 수가 극악입니다. SR에서 많다고 보는 EDSR보다 3배가 많습니다. 이 수치는 multi scale이 가능한 MDSR 보다 많습니다…<br /> (다시한번 말씀드리지만, 철저히 개인적인 의견입니다.)</p>
+
+<h3 id="-experiment-results-with-bicubic-bi-degradation-model-">[ Experiment Results with Bicubic (BI) Degradation Model ]</h3>
+<p><img src="../assets/img/RCAN/RCAN_24.png" alt="Alt text" /><br /></p>
+
+<h3 id="-experiment-object-recognition-performance-">[ Experiment Object Recognition Performance ]</h3>
+<p><img src="../assets/img/RCAN/RCAN_25.png" alt="Alt text" /><br />
+Object Recognition 에서 preprocessing 에서도 기존의 방법들 보다 좋은 성능을 보인다. 라고 말하고 있습니다.<br /></p>
+
+<h3 id="-experiment-benchmark-">[ Experiment benchmark ]</h3>
+
+<p><img src="../assets/img/RCAN/RCAN_22.png" alt="Alt text" /><br /></p>
+
+<h3 id="-experiment-visualize-">[ Experiment visualize ]</h3>
+
+<p><img src="../assets/img/RCAN/RCAN_23.png" alt="Alt text" /><br /></p>
+:ET
